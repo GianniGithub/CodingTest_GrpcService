@@ -1,8 +1,9 @@
 ﻿using Calculator.Contracts;
 using Calculator.Server.Services;
 using Microsoft.Extensions.Logging.Abstractions;
-namespace Calculator.Server.Tests;
+namespace Calculator.Server.Tests.Unit;
 
+[Trait("Category", "Unit")]
 public class Addition
 {
     [Theory]
