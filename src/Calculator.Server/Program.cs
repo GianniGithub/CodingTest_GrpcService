@@ -4,12 +4,17 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddGrpc();
 builder.Services.AddGrpcReflection();
+
+// CORS-Origin aus Umgebungsvariable oder default
+var grpcClientOrigin = builder.Configuration["GRPC_CLIENT_ORIGIN"] 
+    ?? "https://localhost:7244";
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("BlazorWasm", policy =>
     {
         policy
-            .WithOrigins("https://localhost:7244")
+            .WithOrigins(grpcClientOrigin)
             .AllowAnyHeader()
             .AllowAnyMethod()
             .WithExposedHeaders(

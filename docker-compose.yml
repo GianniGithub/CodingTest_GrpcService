@@ -1,0 +1,21 @@
+services:
+  calculator-server:
+    build:
+      context: .
+      dockerfile: src/Calculator.Server/Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - GRPC_CLIENT_ORIGIN=http://localhost:8081
+      - ASPNETCORE_URLS=http://+:8080
+      - Kestrel__EndpointDefaults__Protocols=Http1AndHttp2
+
+  calculator-client:
+    build:
+      context: .
+      dockerfile: src/Calculator.Client/Dockerfile
+    ports:
+      - "8081:80"
+    depends_on:
+      - calculator-server

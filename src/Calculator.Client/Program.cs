@@ -7,13 +7,17 @@ using Grpc.Net.Client.Web;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
-builder.Services.AddScoped(_ =>
+builder.Services.AddScoped(sp =>
 {
+    var config = sp.GetRequiredService<IConfiguration>();
+    var grpcServerUrl = config["GrpcServerUrl"]
+        ?? throw new InvalidOperationException("GrpcServerUrl ist nicht konfiguriert.");
+
     var handler = new GrpcWebHandler(
         GrpcWebMode.GrpcWeb,
         new HttpClientHandler());
 
-    return GrpcChannel.ForAddress("https://localhost:7020", new GrpcChannelOptions
+    return GrpcChannel.ForAddress(grpcServerUrl, new GrpcChannelOptions
     {
         HttpHandler = handler
     });
