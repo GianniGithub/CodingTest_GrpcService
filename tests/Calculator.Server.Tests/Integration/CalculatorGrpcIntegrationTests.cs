@@ -10,7 +10,6 @@ public class CalculatorGrpcIntegrationTests(WebApplicationFactory<Program> facto
     [Fact]
     public async Task Add_ReturnsExpectedResult_ThroughGrpc()
     {
-        // Arrange
         var client = factory.CreateDefaultClient();
 
         var channel = GrpcChannel.ForAddress(
@@ -30,8 +29,7 @@ public class CalculatorGrpcIntegrationTests(WebApplicationFactory<Program> facto
 
         // Act
         var response = await grpcClient.AddAsync(request);
-
-        // Assert
+        
         Assert.Equal(12, response.Value);
     }
 }

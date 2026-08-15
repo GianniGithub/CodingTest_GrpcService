@@ -1,0 +1,49 @@
+.calculator-container {
+    max-width: 420px;
+    margin: 0 auto;
+    padding: 1.5rem;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    background-color: #fafafa;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.35rem;
+    font-weight: 600;
+}
+
+.form-control {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+.btn {
+    margin-top: 0.5rem;
+    padding: 0.55rem 1rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.btn-primary {
+    color: white;
+    background-color: #0d6efd;
+}
+
+.result-box {
+    margin-top: 1.25rem;
+    padding: 0.75rem;
+    border-radius: 6px;
+    background-color: #eef4ff;
+}
+
+h3 {
+    text-align: center;
+}
