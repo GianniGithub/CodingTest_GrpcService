@@ -1,5 +1,8 @@
 @page "/"
 @page "/Calculate"
+@using System.Globalization
+@inject CalculatorService.CalculatorServiceClient CalculatorClient
+
 
 <h3>Taschenrechner</h3>
 
@@ -18,10 +21,10 @@
         <select id="operation"
                 class="form-control"
                 @bind="SelectedOperation">
-            <option value="Addition">Addition (+)</option>
-            <option value="Subtraction">Subtraktion (-)</option>
-            <option value="Multiplication">Multiplikation (*)</option>
-            <option value="Division">Division (/)</option>
+            <option value="@Operation.Addition">Addition (+)</option>
+            <option value="@Operation.Subtraction">Subtraktion (-)</option>
+            <option value="@Operation.Multiplication">Multiplikation (*)</option>
+            <option value="@Operation.Division">Division (/)</option>
         </select>
     </div>
 
@@ -47,17 +50,31 @@
 
 @code {
     private double? Operand1 { get; set; }
-
     private double? Operand2 { get; set; }
 
-    private string SelectedOperation { get; set; } = "Addition";
-
+    private Operation SelectedOperation { get; set; } = Operation.Addition;
     private string ResultText { get; set; } = "Noch kein Ergebnis";
 
     private async Task CalculateAsync()
     {
-        ResultText = "Berechnung über gRPC folgt später...";
+        if (Operand1 is null || Operand2 is null)
+        {
+            ResultText = "Bitte beide Zahlen eingeben.";
+            return;
+        }
 
-        await Task.CompletedTask;
+        var response = await CalculatorClient.CalculateAsync(new CalculationRequest
+        {
+            Left = Operand1.Value,
+            Right = Operand2.Value,
+            Operation = SelectedOperation
+        });
+
+        ResultText = response.Code switch
+        {
+            CalculationResultCode.Ok => response.Value.ToString(CultureInfo.InvariantCulture),
+            CalculationResultCode.DivisionByZero => "Fehler: Division durch 0.",
+            _ => "Unbekannter Berechnungsfehler."
+        };
     }
 }

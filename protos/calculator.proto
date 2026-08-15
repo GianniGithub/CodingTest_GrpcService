@@ -2,14 +2,30 @@ syntax = "proto3";
 option csharp_namespace = "Calculator.Contracts";
 
 service CalculatorService {
-  rpc Add (BinaryOperationRequest) returns (CalculationResponse);
+  rpc Calculate (CalculationRequest) returns (CalculationResponse);
 }
 
-message BinaryOperationRequest {
+enum Operation {
+  OPERATION_UNSPECIFIED = 0;
+  ADDITION = 1;
+  SUBTRACTION = 2;
+  MULTIPLICATION = 3;
+  DIVISION = 4;
+}
+
+enum CalculationResultCode {
+  CALCULATION_RESULT_CODE_UNSPECIFIED = 0;
+  OK = 1;
+  DIVISION_BY_ZERO = 2;
+}
+
+message CalculationRequest {
   double left = 1;
   double right = 2;
+  Operation operation = 3;
 }
 
 message CalculationResponse {
   double value = 1;
+  CalculationResultCode code = 2;
 }
