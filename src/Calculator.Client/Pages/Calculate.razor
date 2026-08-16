@@ -3,17 +3,16 @@
 @using System.Globalization
 @inject CalculatorService.CalculatorServiceClient CalculatorClient
 
-
-<h3>Taschenrechner</h3>
+<h3>Calculator</h3>
 
 <div class="calculator-container">
     <div class="form-group">
-        <label for="operand1">Erste Zahl</label>
+        <label for="operand1">First number</label>
         <input id="operand1"
                type="number"
                class="form-control"
                @bind="Operand1"
-               placeholder="z. B. 10" />
+               placeholder="e.g. 10" />
     </div>
 
     <div class="form-group">
@@ -22,28 +21,28 @@
                 class="form-control"
                 @bind="SelectedOperation">
             <option value="@Operation.Addition">Addition (+)</option>
-            <option value="@Operation.Subtraction">Subtraktion (-)</option>
-            <option value="@Operation.Multiplication">Multiplikation (*)</option>
+            <option value="@Operation.Subtraction">Subtraction (-)</option>
+            <option value="@Operation.Multiplication">Multiplication (*)</option>
             <option value="@Operation.Division">Division (/)</option>
         </select>
     </div>
 
     <div class="form-group">
-        <label for="operand2">Zweite Zahl</label>
+        <label for="operand2">Second number</label>
         <input id="operand2"
                type="number"
                class="form-control"
                @bind="Operand2"
-               placeholder="z. B. 5" />
+               placeholder="e.g. 5" />
     </div>
 
     <button class="btn btn-primary"
             @onclick="CalculateAsync">
-        Berechnen
+        Calculate
     </button>
 
     <div class="result-box">
-        <strong>Ergebnis:</strong>
+        <strong>Result:</strong>
         <span>@ResultText</span>
     </div>
 </div>
@@ -53,13 +52,13 @@
     private double? Operand2 { get; set; }
 
     private Operation SelectedOperation { get; set; } = Operation.Addition;
-    private string ResultText { get; set; } = "Noch kein Ergebnis";
+    private string ResultText { get; set; } = "No result yet";
 
     private async Task CalculateAsync()
     {
         if (Operand1 is null || Operand2 is null)
         {
-            ResultText = "Bitte beide Zahlen eingeben.";
+            ResultText = "Please enter both numbers.";
             return;
         }
 
@@ -73,8 +72,8 @@
         ResultText = response.Code switch
         {
             CalculationResultCode.Ok => response.Value.ToString(CultureInfo.InvariantCulture),
-            CalculationResultCode.DivisionByZero => "Fehler: Division durch 0.",
-            _ => "Unbekannter Berechnungsfehler."
+            CalculationResultCode.DivisionByZero => "Error: Division by zero.",
+            _ => "Unknown calculation error."
         };
     }
 }

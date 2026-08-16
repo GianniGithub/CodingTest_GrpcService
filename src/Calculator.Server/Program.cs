@@ -5,7 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddGrpc();
 builder.Services.AddGrpcReflection();
 
-// CORS-Origin aus Umgebungsvariable oder default
+// CORS-Origin from Environment (Docker) or default
 var grpcClientOrigin = builder.Configuration["GRPC_CLIENT_ORIGIN"] 
     ?? "https://localhost:7244";
 
@@ -35,6 +35,7 @@ app.MapGrpcService<CalculatorGrpcService>()
     .EnableGrpcWeb()
     .RequireCors("BlazorWasm");
 
+// For debugging only
 if (app.Environment.IsDevelopment())
 {
     app.MapGrpcReflectionService();
